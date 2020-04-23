@@ -40,11 +40,12 @@ sniffer.bind((host, 0))
 sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 
 try:
-    raw_buff = sniffer.recvfrom(65535)[0]
+    while True:
+        raw_buff = sniffer.recvfrom(65535)[0]
 
-    ip_header = IP(raw_buff[0:20])
+        ip_header = IP(raw_buff[0:20])
 
-    print("protocol {} src {} dst {}".format(ip_header.protocol, ip_header.src_address, ip_header.dst_address))
+        print("protocol {} src {} dst {}".format(ip_header.protocol, ip_header.src_address, ip_header.dst_address))
 except KeyboardInterrupt:
     pass
 
