@@ -21,6 +21,13 @@ class IP(Structure):
 
     def __init__(self, socket_buffer=None):
         self.protocol_map = {1:"ICMP", 6:"TCP", 17:"UDP"}
+        self.src_address = socket.inet_ntoa(struct.pack("<L", selfc.src))
+        self.dst_address = socket.inet_ntoa(struct.pack("<L", self.dst))
+
+        try:
+            self.protocol = self.protocol_map[self.protocol_num]
+        except:
+            self.protocol = str(self.protocol_num)
 
 host = "10.0.2.15"
 
@@ -32,6 +39,12 @@ sniffer.bind((host, 0))
 
 sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 
-print(sniffer.recvfrom(65535))
+try:
+    raw_buff = sniffer.recvfrom(65535)
 
+    ip_header = IP(raw_buff[0:20])
+
+    print("protocol {}".format(ip_header.protocol))
+except KeyboardInterrupt:
+    pass
 
