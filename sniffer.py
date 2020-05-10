@@ -1,5 +1,6 @@
-import socket, os, struct
+import socket, os, struct, threading, time
 from ctypes import *
+from netaddr import IPNetwork,IPAddress
 
 class IP(Structure):
     _fields_ = [
@@ -44,20 +45,34 @@ class ICMP(Structure):
     def __init__(self, socket_buffer):
         pass
 
-host = "10.0.2.15"
+subnet = "192.168.178.0/24"
+
+magic_message = "message"
+
+def udp_sender(subnet, magic_message):
+    time.sleep(5)
+    sender = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    for ip in IPNetwork(subnet):
+        try:
+            sender.sendto(magic_message, ("{}".format(ip), 65212))
+        except:
+            pass
+
+t = threading.Thread(target=udp_sender, args=(subnet, magic_message))
+t.start()
 
 socket_protocol = socket.IPPROTO_ICMP
 
 sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket_protocol)
 
-sniffer.bind((host, 0))
+sniffer.bind(("127.0.0.1", 0))
 
 sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 
 try:
     while True:
         raw_buff = sniffer.recvfrom(65535)[0]
-
         ip_header = IP(raw_buff[0:20])
 
         print("protocol {} src {} dst {}".format(ip_header.protocol, ip_header.src_address, ip_header.dst_address))
@@ -66,8 +81,12 @@ try:
             buff = raw_buff[offset:offset + sizeof(ICMP)]
 
             icmp_header = ICMP(buff)
+            if icmp_header.code == 3 and icmp_header.type == 3:
+                if IPAddress(ip_header.src_address) in IPNetwork(subnet):
+                    if raw_buffer[len(raw_buffer) - len(magic_message):] == magic_message:
+                        print("Host up: {}".format(ip_header.src_address))
 
-            print("ICMP -> Type: {} Code: {}".format(icmp_header.type, icmp_header.code))
+            #print("ICMP -> Type: {} Code: {}".format(icmp_header.type, icmp_header.code))
 except KeyboardInterrupt:
     pass
 
