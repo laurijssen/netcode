@@ -1,1 +1,1 @@
-print("Hello", 20*'-')
+print("Hello", 100*'-')
