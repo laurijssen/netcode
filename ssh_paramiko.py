@@ -1,10 +1,11 @@
-import threading
+import os
 import paramiko
 import subprocess
+import threading
 
 # run remote command
 def ssh_command(ip, user, command):
-    key = paramiko.RSAKey.from_private_key_file('/home/kali/.ssh/paramiko')
+    key = paramiko.RSAKey.from_private_key_file(os.getenv('HOME') + '/.ssh/paramiko')
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(ip, username=user, pkey=key)
