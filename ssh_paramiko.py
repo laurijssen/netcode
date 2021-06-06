@@ -1,3 +1,5 @@
+# ssh-copy-id paramiko.pub
+
 import os
 import paramiko
 import subprocess
@@ -12,10 +14,16 @@ def ssh_command(ip, user, command):
     ssh_session = client.get_transport().open_session()
     if ssh_session.active:
         ssh_session.exec_command(command)
-        return ssh_session.recv(1024)
+        out = []
+        r = ssh_session.recv(1024).decode('utf-8')
+        while r:
+            out.append(r)
+            r = ssh_session.recv(1024).decode('utf-8')
+
+        return ''.join(out)
     return ''
 
-res = ssh_command('127.0.0.1', 'kali', 'pwd')
+res = ssh_command('127.0.0.1', 'laurijssen', 'cd / ; ls */ | xargs ls')
 for file in str(res).split('\\n'):
     print(file)
 
