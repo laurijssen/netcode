@@ -23,7 +23,7 @@ def ssh_command(ip, user, command):
         return ''.join(out)
     return ''
 
-res = ssh_command('127.0.0.1', 'laurijssen', 'cd / ; ls */ | xargs ls')
+res = ssh_command('127.0.0.1', 'kali', 'cd / ; ls */ | xargs ls')
 for file in str(res).split('\\n'):
     print(file)
 
