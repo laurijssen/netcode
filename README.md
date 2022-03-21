@@ -1,5 +1,6 @@
 # netcode
 
+```
 1. have an order ready on the local machine (no network)
 
 /home/user/316274
@@ -87,3 +88,4 @@ So it looks like that the node process was hanging in epoll_wait while trying to
 
 /tmp/pablo_-9-EZih1Jd7k4ct' -> '/workspace/8335628376.jpg
 
+```
