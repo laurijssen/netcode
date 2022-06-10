@@ -6,13 +6,13 @@
 /home/user/316274
 
 ls -l 316274/project-9/
--rwxrwxrwx 1 laurijssen domain users@fujicolor.nl    365943 Dec 14 08:04 8335619764.jpg
--rwxrwxrwx 1 laurijssen domain users@fujicolor.nl   2448629 Dec 14 08:04 8335619929.jpg
+-rwxrwxrwx 1 laurijssen domain users@domain.nl    365943 Dec 14 08:04 8335619764.jpg
+-rwxrwxrwx 1 laurijssen domain users@domain.nl   2448629 Dec 14 08:04 8335619929.jpg
 
 .......
 
--rwxrwxrwx 1 laurijssen domain users@fujicolor.nl         0 Dec 14 08:04 8335628376.jpg
--rwxrwxrwx 1 laurijssen domain users@fujicolor.nl     61788 Dec 14 07:58 project.json
+-rwxrwxrwx 1 laurijssen domain users@         0 Dec 14 08:04 8335628376.jpg
+-rwxrwxrwx 1 laurijssen domain users@     61788 Dec 14 07:58 project.json
 
 2. run the container. added admin capability for debugging later
 
@@ -22,13 +22,13 @@ docker run --cap-add=SYS_ADMIN --security-opt seccomp=unconfined
 
 3. the container hangs forever and ls -l shows that the pdf is generated and the very last file is zero bytes
 
--rwxrwxrwx 1 laurijssen@fujicolor.nl domain users@fujicolor.nl 129801775 Dec 14 08:04 0.pdf
+-rwxrwxrwx 1 laurijssen@domain.nl domain users@domain.nl 129801775 Dec 14 08:04 0.pdf
 
 .....
 
--rwxrwxrwx 1 laurijssen domain users@fujicolor.nl   2006613 Dec 14 08:04 8335628065.jpg
--rwxrwxrwx 1 laurijssen domain users@fujicolor.nl         0 Dec 14 08:04 8335628376.jpg
--rwxrwxrwx 1 laurijssen domain users@fujicolor.nl     61788 Dec 14 07:58 project.json
+-rwxrwxrwx 1 laurijssen domain users@domain.nl   2006613 Dec 14 08:04 8335628065.jpg
+-rwxrwxrwx 1 laurijssen domain users@domain.nl         0 Dec 14 08:04 8335628376.jpg
+-rwxrwxrwx 1 laurijssen domain users@domain.nl     61788 Dec 14 07:58 project.json
 
 4. login at the container
 
